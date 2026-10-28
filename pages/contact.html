@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - S4HIL STORE</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="../assets/css/styles.css?v=13" rel="stylesheet">
+    <script src="../assets/js/store.js" defer></script>
+    <script src="../assets/js/api.js" defer></script>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+            <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="nav-brand text-2xl font-bold" aria-label="S4HIL STORE Home">
+                        <span class="nav-brand-text">S4HIL</span>
+                        <span class="nav-brand-badge">STORE</span>
+                    </a>
+                </div>
+
+                <!-- Links (Desktop) -->
+                <div class="hidden md:flex items-center space-x-1 nav-desktop-links">
+                    <a href="/" class="nav-link px-3 py-2 font-medium">Home</a>
+                    <a href="/books" class="nav-link px-3 py-2 font-medium">Books</a>
+                    <a href="/about" class="nav-link px-3 py-2 font-medium">About</a>
+                    <a href="/contact" class="nav-link px-3 py-2 font-medium">Contact</a>
+                </div>
+
+                <!-- Cart, Wishlist, Login & Mobile Menu Toggle -->
+                <div class="flex items-center space-x-3 nav-actions">
+                    <a href="/wishlist" class="nav-icon-link p-2" aria-label="Wishlist" data-wishlist-nav>
+                        <i class="far fa-heart" aria-hidden="true"></i>
+                        <span class="cart-badge absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center" data-wishlist-count>0</span>
+                    </a>
+                    <div class="relative">
+                        <a href="/cart" class="nav-icon-link p-2" aria-label="Shopping Cart">
+                            <i class="fas fa-shopping-cart text-lg" aria-hidden="true"></i>
+                            <span class="cart-badge absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center" id="cartCount">0</span>
+                        </a>
+                    </div>
+                    <a href="/login" class="nav-btn-login bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium" data-auth-link>
+                        <i class="fas fa-user mr-2" aria-hidden="true"></i><span>Login</span>
+                    </a>
+                    <button id="mobileMenuButton" class="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none" type="button" aria-label="Toggle Navigation Menu">
+                        <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu (Drawer) -->
+            <div id="mobileMenu" class="hidden md:hidden pb-3">
+                <a href="/" class="mobile-drawer-link block px-4 py-2 font-medium">Home</a>
+                <a href="/books" class="mobile-drawer-link block px-4 py-2 font-medium">Books</a>
+                <a href="/about" class="mobile-drawer-link block px-4 py-2 font-medium">About</a>
+                <a href="/contact" class="mobile-drawer-link block px-4 py-2 font-medium">Contact</a>
+                <a href="/wishlist" class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="far fa-heart mr-2 text-emerald-400" aria-hidden="true"></i> Wishlist</span>
+                    <span class="badge-pill" data-wishlist-count>0</span>
+                </a>
+                <a href="/cart" class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="fas fa-shopping-cart mr-2 text-emerald-400" aria-hidden="true"></i> Cart</span>
+                    <span class="badge-pill" id="mobileCartCount">0</span>
+                </a>
+                <a href="/login" class="mobile-drawer-link block px-4 py-2 font-medium" data-auth-link>
+                    <i class="fas fa-user mr-2 text-emerald-400" aria-hidden="true"></i> Login / Account
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Section -->
+    <section class="max-w-4xl mx-auto px-4 py-16">
+        <h1 class="text-4xl font-bold text-center mb-12">Contact Us</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-2xl font-bold mb-6">Get in Touch</h2>
+                <p class="text-gray-700 mb-4">Send a message to the local store inbox, or use the contact details below.</p>
+                <p class="text-gray-600 mb-2"><i class="fas fa-map-marker-alt"></i> 451 Book Street, Mumbai</p>
+                <p class="text-gray-600 mb-2"><i class="fas fa-phone"></i> +91 98765 43210</p>
+                <p class="text-gray-600 mb-2"><i class="fas fa-envelope"></i> info@s4hil.store</p>
+            </div>
+            <div>
+                <form id="contactForm" class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-4">
+                        <label for="contactName" class="block text-sm font-medium mb-2">Name</label>
+                        <input id="contactName" name="name" type="text" autocomplete="name" placeholder="Your full name" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="contactEmail" class="block text-sm font-medium mb-2">Email</label>
+                        <input id="contactEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="contactSubject" class="block text-sm font-medium mb-2">Subject</label>
+                        <input id="contactSubject" name="subject" type="text" maxlength="180" class="w-full p-3 border rounded-lg" value="Website enquiry" placeholder="What can we help you with?" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="contactMessage" class="block text-sm font-medium mb-2">Message</label>
+                        <textarea id="contactMessage" name="message" rows="4" maxlength="5000" minlength="5" placeholder="Write your message here..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
+                        Send Message
+                    </button>
+                    <p id="contactStatus" class="store-status mt-4" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+        <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">S4HIL STORE</h3>
+                    <p class="text-gray-400">Your trusted partner in the world of literature. Discover, read, and grow with us.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="/books" class="text-gray-400 hover:text-white">Books</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="/wishlist" class="text-gray-400 hover:text-white">Wishlist</a></li>
+                        <li><a href="/terms" class="text-gray-400 hover:text-white">Terms &amp; Conditions</a></li>
+                        <li><a href="/unsubscribe" class="text-gray-400 hover:text-white">Newsletter Preferences</a></li>
+                        <li><a href="/admin" class="text-gray-400 hover:text-white">Store Admin</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/books?category=fiction" class="text-gray-400 hover:text-white">Fiction</a></li>
+                        <li><a href="/books?category=non-fiction" class="text-gray-400 hover:text-white">Non-Fiction</a></li>
+                        <li><a href="/books?category=science-fiction" class="text-gray-400 hover:text-white">Science Fiction</a></li>
+                        <li><a href="/books?category=biography" class="text-gray-400 hover:text-white">Biography</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact Info</h4>
+                    <p class="text-gray-400 mb-2">451 Book Street, Mumbai</p>
+                    <p class="text-gray-400 mb-2">+91 98765 43210</p>
+                    <p class="text-gray-400">info@s4hil.store</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 S4HIL STORE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const status = document.getElementById('contactStatus');
+            const submit = this.querySelector('button[type="submit"]');
+            submit.disabled = true;
+            try {
+                const values = Object.fromEntries(new FormData(this));
+                const result = await BookstoreApi.request('/api/contact', { method: 'POST', body: JSON.stringify(values) });
+                status.textContent = `Message ${result.messageId} saved to the local store inbox. Email delivery is not configured.`;
+                this.reset();
+                document.getElementById('contactSubject').value = 'Website enquiry';
+            } catch (error) {
+                status.textContent = error.message;
+            } finally {
+                submit.disabled = false;
+            }
+        });
+
+        // Update cart count
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

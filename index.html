@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S4HIL STORE - Your Literary Haven</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/styles.css?v=13" rel="stylesheet">
+    <script src="assets/js/store.js" defer></script>
+    <script src="assets/js/api.js" defer></script>
+    <script src="assets/js/catalog-ui.js" defer></script>
+</head>
+
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="nav-brand text-2xl font-bold" aria-label="S4HIL STORE Home">
+                        <span class="nav-brand-text">S4HIL</span>
+                        <span class="nav-brand-badge">STORE</span>
+                    </a>
+                </div>
+
+                <!-- Links (Desktop) -->
+                <div class="hidden md:flex items-center space-x-1 nav-desktop-links">
+                    <a href="/" class="nav-link px-3 py-2 font-medium">Home</a>
+                    <a href="/books" class="nav-link px-3 py-2 font-medium">Books</a>
+                    <a href="/about" class="nav-link px-3 py-2 font-medium">About</a>
+                    <a href="/contact" class="nav-link px-3 py-2 font-medium">Contact</a>
+                </div>
+
+                <!-- Cart, Wishlist, Login & Mobile Menu Toggle -->
+                <div class="flex items-center space-x-3 nav-actions">
+                    <a href="/wishlist" class="nav-icon-link p-2" aria-label="Wishlist" data-wishlist-nav>
+                        <i class="far fa-heart" aria-hidden="true"></i>
+                        <span
+                            class="cart-badge absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
+                            data-wishlist-count>0</span>
+                    </a>
+                    <div class="relative">
+                        <a href="/cart" class="nav-icon-link p-2" aria-label="Shopping Cart">
+                            <i class="fas fa-shopping-cart text-lg" aria-hidden="true"></i>
+                            <span
+                                class="cart-badge absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
+                                id="cartCount">0</span>
+                        </a>
+                    </div>
+                    <a href="/login"
+                        class="nav-btn-login bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium"
+                        data-auth-link>
+                        <i class="fas fa-user mr-2" aria-hidden="true"></i><span>Login</span>
+                    </a>
+                    <button id="mobileMenuButton" class="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none"
+                        type="button" aria-label="Toggle Navigation Menu">
+                        <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu (Drawer) -->
+            <div id="mobileMenu" class="hidden md:hidden pb-3">
+                <a href="/" class="mobile-drawer-link block px-4 py-2 font-medium">Home</a>
+                <a href="/books" class="mobile-drawer-link block px-4 py-2 font-medium">Books</a>
+                <a href="/about" class="mobile-drawer-link block px-4 py-2 font-medium">About</a>
+                <a href="/contact" class="mobile-drawer-link block px-4 py-2 font-medium">Contact</a>
+                <a href="/wishlist"
+                    class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="far fa-heart mr-2 text-emerald-400" aria-hidden="true"></i> Wishlist</span>
+                    <span class="badge-pill" data-wishlist-count>0</span>
+                </a>
+                <a href="/cart"
+                    class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="fas fa-shopping-cart mr-2 text-emerald-400" aria-hidden="true"></i> Cart</span>
+                    <span class="badge-pill" id="mobileCartCount">0</span>
+                </a>
+                <a href="/login" class="mobile-drawer-link block px-4 py-2 font-medium" data-auth-link>
+                    <i class="fas fa-user mr-2 text-emerald-400" aria-hidden="true"></i> Login / Account
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-bg text-white relative" aria-labelledby="heroTitle">
+        <div class="hero-layout max-w-7xl mx-auto px-4">
+            <div class="hero-copy">
+                <p class="uppercase tracking-wide mb-3">A BOOKROOM FOR THE CURIOUS</p>
+                <h1 id="heroTitle">Leave the ordinary.<br>Find another world.</h1>
+                <p>Thoughtful stories, striking ideas, and a quieter kind of discovery. Your next favorite is waiting on
+                    the shelf.</p>
+                <div class="hero-actions"><a href="pages/books.html" class="hero-primary">Explore the collection <i
+                            class="fas fa-arrow-right" aria-hidden="true"></i></a><button id="discoverRandom"
+                        class="hero-secondary" type="button"><i class="fas fa-shuffle" aria-hidden="true"></i> Surprise
+                        me</button></div>
+                <div id="heroPick" class="hero-pick" aria-live="polite"></div>
+            </div>
+            <div id="heroBookStack" class="hero-book-stack" aria-label="Featured book covers"></div>
+        </div>
+        <div class="hero-overlay" aria-hidden="true"></div>
+    </section>
+
+
+
+    <!-- Featured Books -->
+    <section class="max-w-7xl mx-auto px-4 py-16">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">CURATED FOR YOU</p>
+                <h2>Featured books</h2>
+            </div><a href="pages/books.html">View the full collection <i class="fas fa-arrow-right"
+                    aria-hidden="true"></i></a>
+        </div>
+        <div id="featuredBooksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="catalog-loading" role="status">Loading featured books…</div>
+        </div>
+    </section>
+
+
+    <section class="max-w-7xl mx-auto px-4 py-10">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">MORE TO DISCOVER</p>
+                <h2>From the shelves</h2>
+            </div><a href="pages/books.html">Browse all titles <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div id="moreBooksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="catalog-loading" role="status">Loading books…</div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <!-- Newsletter -->
+    <section class="bg-blue-600 text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+            <p class="text-lg mb-8">Subscribe to our newsletter for the latest releases and exclusive offers</p>
+
+            <form class="newsletter-form flex flex-col md:flex-row gap-4 max-w-md mx-auto">
+                <input type="email" name="email" placeholder="Your email address" aria-label="Email address" required
+                    class="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                <button type="submit"
+                    class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">Subscribe</button>
+            </form>
+            <p class="text-sm text-white/80 mt-4">Subscriptions are stored locally. Email delivery is not configured.
+            </p>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">S4HIL STORE</h3>
+                    <p class="text-gray-400">Your trusted partner in the world of literature. Discover, read, and grow
+                        with us.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="/books" class="text-gray-400 hover:text-white">Books</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="/wishlist" class="text-gray-400 hover:text-white">Wishlist</a></li>
+                        <li><a href="/terms" class="text-gray-400 hover:text-white">Terms &amp; Conditions</a></li>
+                        <li><a href="/unsubscribe" class="text-gray-400 hover:text-white">Newsletter Preferences</a>
+                        </li>
+                        <li><a href="/admin" class="text-gray-400 hover:text-white">Store Admin</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/books?category=fiction" class="text-gray-400 hover:text-white">Fiction</a></li>
+                        <li><a href="/books?category=non-fiction" class="text-gray-400 hover:text-white">Non-Fiction</a>
+                        </li>
+                        <li><a href="/books?category=science-fiction" class="text-gray-400 hover:text-white">Science
+                                Fiction</a></li>
+                        <li><a href="/books?category=biography" class="text-gray-400 hover:text-white">Biography</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact Info</h4>
+                    <p class="text-gray-400 mb-2">451 Book Street, Mumbai</p>
+                    <p class="text-gray-400 mb-2">+91 98765 43210</p>
+                    <p class="text-gray-400">info@s4hil.store</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 S4HIL STORE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            let discoveredBooks = [];
+            try {
+                const [featured, more] = await Promise.all([
+                    BookstoreApi.request('/api/books/featured?limit=4'),
+                    BookstoreApi.request('/api/books?sort=newest&limit=4')
+                ]);
+                discoveredBooks = [...featured.books, ...more.books];
+                await CatalogUI.render(document.getElementById('featuredBooksGrid'), featured.books);
+                await CatalogUI.render(document.getElementById('moreBooksGrid'), more.books);
+                const pick = featured.books[0];
+                if (pick) document.getElementById('heroPick').innerHTML = `<span>EDITOR'S PICK</span><a href="pages/book.html?id=${pick.id}">${Store.escapeHTML(pick.title)} <i class="fas fa-arrow-right" aria-hidden="true"></i></a><small>by ${Store.escapeHTML(pick.author)}</small>`;
+                const stack = document.getElementById('heroBookStack');
+                stack.innerHTML = featured.books.slice(0, 3).map((book, index) => `<a class="hero-book hero-book-${index + 1}" href="pages/book.html?id=${book.id}" aria-label="Discover ${Store.escapeHTML(book.title)}"><img data-cover-id="${book.id}" src="${Store.escapeHTML(BookstoreApi.coverSource(book))}" alt="Cover of ${Store.escapeHTML(book.title)}" width="360" height="480"></a>`).join('');
+                BookstoreApi.bindCoverFallbacks(stack, featured.books.slice(0, 3));
+            } catch (error) {
+                document.getElementById('featuredBooksGrid').innerHTML = `<div class="catalog-error" role="alert">${Store.escapeHTML(error.message)} <button type="button" onclick="location.reload()">Retry</button></div>`;
+                document.getElementById('moreBooksGrid').innerHTML = '';
+            }
+            document.getElementById('discoverRandom').addEventListener('click', () => {
+                if (discoveredBooks.length) {
+                    const book = discoveredBooks[Math.floor(Math.random() * discoveredBooks.length)];
+                    window.location.href = `pages/book.html?id=${book.id}`;
+                } else window.location.href = 'pages/books.html';
+            });
+
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const email = this.querySelector('input[type="email"]').value;
+                    try {
+                        await BookstoreApi.request('/api/newsletter', { method: 'POST', body: JSON.stringify({ email }) });
+                        Store.notify('Subscription saved to the local bookstore database.');
+                        this.reset();
+                    } catch (error) { Store.notify(error.message); }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

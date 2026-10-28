@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your saved S4HIL STORE book list.">
+    <title>Wishlist - S4HIL STORE</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="../assets/css/styles.css?v=13" rel="stylesheet">
+    <script src="../assets/js/store.js" defer></script>
+    <script src="../assets/js/api.js" defer></script>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+            <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="nav-brand text-2xl font-bold" aria-label="S4HIL STORE Home">
+                        <span class="nav-brand-text">S4HIL</span>
+                        <span class="nav-brand-badge">STORE</span>
+                    </a>
+                </div>
+
+                <!-- Links (Desktop) -->
+                <div class="hidden md:flex items-center space-x-1 nav-desktop-links">
+                    <a href="/" class="nav-link px-3 py-2 font-medium">Home</a>
+                    <a href="/books" class="nav-link px-3 py-2 font-medium">Books</a>
+                    <a href="/about" class="nav-link px-3 py-2 font-medium">About</a>
+                    <a href="/contact" class="nav-link px-3 py-2 font-medium">Contact</a>
+                </div>
+
+                <!-- Cart, Wishlist, Login & Mobile Menu Toggle -->
+                <div class="flex items-center space-x-3 nav-actions">
+                    <a href="/wishlist" class="nav-icon-link p-2" aria-label="Wishlist" data-wishlist-nav>
+                        <i class="far fa-heart" aria-hidden="true"></i>
+                        <span class="cart-badge absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center" data-wishlist-count>0</span>
+                    </a>
+                    <div class="relative">
+                        <a href="/cart" class="nav-icon-link p-2" aria-label="Shopping Cart">
+                            <i class="fas fa-shopping-cart text-lg" aria-hidden="true"></i>
+                            <span class="cart-badge absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center" id="cartCount">0</span>
+                        </a>
+                    </div>
+                    <a href="/login" class="nav-btn-login bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium" data-auth-link>
+                        <i class="fas fa-user mr-2" aria-hidden="true"></i><span>Login</span>
+                    </a>
+                    <button id="mobileMenuButton" class="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none" type="button" aria-label="Toggle Navigation Menu">
+                        <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu (Drawer) -->
+            <div id="mobileMenu" class="hidden md:hidden pb-3">
+                <a href="/" class="mobile-drawer-link block px-4 py-2 font-medium">Home</a>
+                <a href="/books" class="mobile-drawer-link block px-4 py-2 font-medium">Books</a>
+                <a href="/about" class="mobile-drawer-link block px-4 py-2 font-medium">About</a>
+                <a href="/contact" class="mobile-drawer-link block px-4 py-2 font-medium">Contact</a>
+                <a href="/wishlist" class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="far fa-heart mr-2 text-emerald-400" aria-hidden="true"></i> Wishlist</span>
+                    <span class="badge-pill" data-wishlist-count>0</span>
+                </a>
+                <a href="/cart" class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="fas fa-shopping-cart mr-2 text-emerald-400" aria-hidden="true"></i> Cart</span>
+                    <span class="badge-pill" id="mobileCartCount">0</span>
+                </a>
+                <a href="/login" class="mobile-drawer-link block px-4 py-2 font-medium" data-auth-link>
+                    <i class="fas fa-user mr-2 text-emerald-400" aria-hidden="true"></i> Login / Account
+                </a>
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-7xl mx-auto px-4 py-10 md:py-14 flex-1">
+        <div class="page-heading"><div><p class="eyebrow">YOUR READING LIST</p><h1>Saved for later</h1></div><a class="text-blue-600 font-semibold" href="books.html">Browse books <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i></a></div>
+        <p id="wishlistStatus" class="text-sm text-gray-500 mb-5" role="status" aria-live="polite">Loading your saved books…</p>
+        <section id="wishlistGrid" class="wishlist-grid" aria-label="Saved books"></section>
+    </main>
+        <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">S4HIL STORE</h3>
+                    <p class="text-gray-400">Your trusted partner in the world of literature. Discover, read, and grow with us.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="/books" class="text-gray-400 hover:text-white">Books</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="/wishlist" class="text-gray-400 hover:text-white">Wishlist</a></li>
+                        <li><a href="/terms" class="text-gray-400 hover:text-white">Terms &amp; Conditions</a></li>
+                        <li><a href="/unsubscribe" class="text-gray-400 hover:text-white">Newsletter Preferences</a></li>
+                        <li><a href="/admin" class="text-gray-400 hover:text-white">Store Admin</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/books?category=fiction" class="text-gray-400 hover:text-white">Fiction</a></li>
+                        <li><a href="/books?category=non-fiction" class="text-gray-400 hover:text-white">Non-Fiction</a></li>
+                        <li><a href="/books?category=science-fiction" class="text-gray-400 hover:text-white">Science Fiction</a></li>
+                        <li><a href="/books?category=biography" class="text-gray-400 hover:text-white">Biography</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact Info</h4>
+                    <p class="text-gray-400 mb-2">451 Book Street, Mumbai</p>
+                    <p class="text-gray-400 mb-2">+91 98765 43210</p>
+                    <p class="text-gray-400">info@s4hil.store</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 S4HIL STORE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('wishlistGrid');
+            const status = document.getElementById('wishlistStatus');
+            try {
+                const books = await BookstoreApi.getWishlist();
+                status.textContent = `${books.length} ${books.length === 1 ? 'book' : 'books'} saved`;
+                if (!books.length) {
+                    grid.innerHTML = '<div class="store-empty"><h2>Your wishlist is waiting for its first book.</h2><p>Save a title from the collection and it will appear here.</p><a href="books.html" class="bg-blue-600 text-white px-5 py-3">Explore the collection</a></div>';
+                    return;
+                }
+                grid.innerHTML = books.map((book) => {
+                    const title = Store.escapeHTML(book.title);
+                    const author = Store.escapeHTML(book.author);
+                    const category = Store.escapeHTML(book.category);
+                    const categoryName = Store.escapeHTML(book.category_name || book.category || 'Books');
+                    return `<article class="wishlist-card"><a class="book-cover-link" href="book.html?id=${encodeURIComponent(book.id)}"><div class="book-cover-frame" data-title="${title}" data-category="${category}"><img data-cover-id="${book.id}" src="${BookstoreApi.coverSource(book)}" alt="Cover of ${title}" loading="lazy"></div></a><div class="wishlist-card-copy"><p class="book-card-category">${categoryName}</p><h2><a href="book.html?id=${encodeURIComponent(book.id)}">${title}</a></h2><p>by ${author}</p><strong>${Store.formatCurrency(book.price)}</strong><div><button class="book-add-button" data-add="${book.id}" type="button"><i class="fas fa-bag-shopping" aria-hidden="true"></i> Add to bag</button><button class="wishlist-remove" data-remove="${book.id}" type="button" aria-label="Remove ${title} from wishlist"><i class="fas fa-heart-crack" aria-hidden="true"></i></button></div></div></article>`;
+                }).join('');
+                BookstoreApi.bindCoverFallbacks(grid, books);
+                grid.querySelectorAll('[data-add]').forEach((button) => button.addEventListener('click', () => Store.addToCart(books.find((book) => book.id === Number(button.dataset.add)))));
+                grid.querySelectorAll('[data-remove]').forEach((button) => button.addEventListener('click', async () => {
+                    try {
+                        await BookstoreApi.toggleWishlist(books.find((book) => book.id === Number(button.dataset.remove)), true);
+                        button.closest('.wishlist-card').remove();
+                        const remaining = grid.querySelectorAll('.wishlist-card').length;
+                        status.textContent = `${remaining} ${remaining === 1 ? 'book' : 'books'} saved`;
+                        if (!remaining) grid.innerHTML = '<div class="store-empty"><h2>Your wishlist is waiting for its first book.</h2><p>Save a title from the collection and it will appear here.</p><a href="books.html" class="bg-blue-600 text-white px-5 py-3">Explore the collection</a></div>';
+                        document.querySelectorAll('[data-wishlist-count]').forEach((badge) => { badge.textContent = remaining; });
+                    } catch (error) { Store.notify(error.message); }
+                }));
+            } catch (error) {
+                status.textContent = error.message;
+                grid.innerHTML = '<div class="store-empty"><h2>Wishlist is unavailable.</h2><p>Check that the local storefront server is running.</p></div>';
+            }
+        });
+    </script>
+</body>
+</html>

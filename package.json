@@ -1,0 +1,22 @@
+{
+  "name": "s4hil-bookstore",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "S4HIL STORE storefront with an Express API and SQLite catalog",
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "node --watch server/app.js",
+    "db:init": "node server/db/init.js",
+    "admin:hash": "node server/scripts/hash-password.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^5.3.0",
+    "helmet": "^8.1.0"
+  },
+  "engines": {
+    "node": ">=22.5"
+  }
+}

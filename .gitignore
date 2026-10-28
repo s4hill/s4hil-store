@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Environment variables — never commit secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Database files — generated locally, never commit
+server/data/*.sqlite
+server/data/*.sqlite-shm
+server/data/*.sqlite-wal
+
+# Build & output
+dist/
+coverage/
+logs/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo

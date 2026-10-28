@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - S4HIL STORE</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="../assets/css/styles.css?v=13" rel="stylesheet">
+    <script src="../assets/js/store.js" defer></script>
+    <script src="../assets/js/api.js" defer></script>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+            <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="nav-brand text-2xl font-bold" aria-label="S4HIL STORE Home">
+                        <span class="nav-brand-text">S4HIL</span>
+                        <span class="nav-brand-badge">STORE</span>
+                    </a>
+                </div>
+
+                <!-- Links (Desktop) -->
+                <div class="hidden md:flex items-center space-x-1 nav-desktop-links">
+                    <a href="/" class="nav-link px-3 py-2 font-medium">Home</a>
+                    <a href="/books" class="nav-link px-3 py-2 font-medium">Books</a>
+                    <a href="/about" class="nav-link px-3 py-2 font-medium">About</a>
+                    <a href="/contact" class="nav-link px-3 py-2 font-medium">Contact</a>
+                </div>
+
+                <!-- Cart, Wishlist, Login & Mobile Menu Toggle -->
+                <div class="flex items-center space-x-3 nav-actions">
+                    <a href="/wishlist" class="nav-icon-link p-2" aria-label="Wishlist" data-wishlist-nav>
+                        <i class="far fa-heart" aria-hidden="true"></i>
+                        <span class="cart-badge absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center" data-wishlist-count>0</span>
+                    </a>
+                    <div class="relative">
+                        <a href="/cart" class="nav-icon-link p-2" aria-label="Shopping Cart">
+                            <i class="fas fa-shopping-cart text-lg" aria-hidden="true"></i>
+                            <span class="cart-badge absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center" id="cartCount">0</span>
+                        </a>
+                    </div>
+                    <a href="/login" class="nav-btn-login bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium" data-auth-link>
+                        <i class="fas fa-user mr-2" aria-hidden="true"></i><span>Login</span>
+                    </a>
+                    <button id="mobileMenuButton" class="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none" type="button" aria-label="Toggle Navigation Menu">
+                        <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu (Drawer) -->
+            <div id="mobileMenu" class="hidden md:hidden pb-3">
+                <a href="/" class="mobile-drawer-link block px-4 py-2 font-medium">Home</a>
+                <a href="/books" class="mobile-drawer-link block px-4 py-2 font-medium">Books</a>
+                <a href="/about" class="mobile-drawer-link block px-4 py-2 font-medium">About</a>
+                <a href="/contact" class="mobile-drawer-link block px-4 py-2 font-medium">Contact</a>
+                <a href="/wishlist" class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="far fa-heart mr-2 text-emerald-400" aria-hidden="true"></i> Wishlist</span>
+                    <span class="badge-pill" data-wishlist-count>0</span>
+                </a>
+                <a href="/cart" class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="fas fa-shopping-cart mr-2 text-emerald-400" aria-hidden="true"></i> Cart</span>
+                    <span class="badge-pill" id="mobileCartCount">0</span>
+                </a>
+                <a href="/login" class="mobile-drawer-link block px-4 py-2 font-medium" data-auth-link>
+                    <i class="fas fa-user mr-2 text-emerald-400" aria-hidden="true"></i> Login / Account
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Section -->
+    <section class="max-w-4xl mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8">Your Shopping Cart</h1>
+        
+        <div id="cartContainer" class="bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Cart items will be loaded here -->
+        </div>
+
+        <!-- Continue Shopping button -->
+        <div class="text-center mt-8">
+            <a href="books.html" class="inline-block bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700">
+                <i class="fas fa-arrow-left mr-2"></i>Continue Shopping
+            </a>
+        </div>
+    </section>
+
+        <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">S4HIL STORE</h3>
+                    <p class="text-gray-400">Your trusted partner in the world of literature. Discover, read, and grow with us.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="/books" class="text-gray-400 hover:text-white">Books</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="/wishlist" class="text-gray-400 hover:text-white">Wishlist</a></li>
+                        <li><a href="/terms" class="text-gray-400 hover:text-white">Terms &amp; Conditions</a></li>
+                        <li><a href="/unsubscribe" class="text-gray-400 hover:text-white">Newsletter Preferences</a></li>
+                        <li><a href="/admin" class="text-gray-400 hover:text-white">Store Admin</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/books?category=fiction" class="text-gray-400 hover:text-white">Fiction</a></li>
+                        <li><a href="/books?category=non-fiction" class="text-gray-400 hover:text-white">Non-Fiction</a></li>
+                        <li><a href="/books?category=science-fiction" class="text-gray-400 hover:text-white">Science Fiction</a></li>
+                        <li><a href="/books?category=biography" class="text-gray-400 hover:text-white">Biography</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact Info</h4>
+                    <p class="text-gray-400 mb-2">451 Book Street, Mumbai</p>
+                    <p class="text-gray-400 mb-2">+91 98765 43210</p>
+                    <p class="text-gray-400">info@s4hil.store</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 S4HIL STORE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function renderCart() {
+            const cart = Store.getCart();
+            const container = document.getElementById('cartContainer');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="p-12 text-center">
+                        <i class="fas fa-shopping-cart text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">Your cart is empty</h3>
+                        <p class="text-gray-500 mb-6">Start shopping to add items to your cart</p>
+                        <a href="books.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                            Browse Books
+                        </a>
+                    </div>
+                `;
+            } else {
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const itemsTotal = cart.reduce((sum, item) => sum + item.quantity, 0);
+                const shipping = subtotal > 999 ? 0 : 50;
+                
+                container.innerHTML = `
+                    <div class="p-6">
+                        <div id="cartItems" class="space-y-4 mb-6">
+                            ${cart.map(item => `
+                                <div class="cart-line flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="cart-cover book-cover-frame" data-title="${Store.escapeHTML(item.title)}" data-category="${Store.escapeHTML(item.category || 'fiction')}"><img data-cover-id="${item.id}" src="${Store.escapeHTML(BookstoreApi.coverSource(item))}" alt="Cover of ${Store.escapeHTML(item.title)}" loading="lazy" width="360" height="480"></div>
+                                        <div class="ml-4">
+                                            <h4 class="font-bold">${Store.escapeHTML(item.title)}</h4>
+                                            <p class="text-gray-600">by ${Store.escapeHTML(item.author)}</p>
+                                            <p class="text-blue-600 font-semibold">${Store.formatCurrency(item.price)}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <button onclick="updateQuantity(${item.id}, -1)" class="w-9 h-9 bg-gray-100 rounded hover:bg-gray-200" aria-label="Decrease ${Store.escapeHTML(item.title)} quantity">-</button>
+                                        <span class="w-8 text-center font-semibold" aria-label="Quantity">${item.quantity}</span>
+                                        <button onclick="updateQuantity(${item.id}, 1)" class="w-9 h-9 bg-gray-100 rounded hover:bg-gray-200" aria-label="Increase ${Store.escapeHTML(item.title)} quantity">+</button>
+                                        <button onclick="removeFromCart(${item.id})" class="ml-2 min-w-9 min-h-9 text-red-600 hover:text-red-800" aria-label="Remove ${Store.escapeHTML(item.title)} from cart">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="border-t pt-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-lg font-semibold">Subtotal (${itemsTotal} ${itemsTotal === 1 ? 'item' : 'items'}):</span>
+                                <span class="text-2xl font-bold text-blue-600">${Store.formatCurrency(subtotal)}</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-gray-600">Shipping:</span>
+                                <span class="font-semibold">${shipping === 0 ? 'Free' : Store.formatCurrency(shipping)}</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-6 text-lg font-semibold">
+                                <span>Total:</span>
+                                <span class="text-2xl text-green-600">${Store.formatCurrency(subtotal + shipping)}</span>
+                            </div>
+                            <a href="checkout.html" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 text-center block font-semibold">
+                                Proceed to Checkout
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (cart.length) BookstoreApi.bindCoverFallbacks(container, cart);
+            
+            updateCartCount();
+        }
+
+        async function refreshCartDetails() {
+            const cart = Store.getCart();
+            if (!cart.length) return;
+            const refreshed = await Promise.all(cart.map(async (item) => {
+                try {
+                    const result = await BookstoreApi.request(`/api/books/${item.id}`);
+                    return { ...item, ...result.book, quantity: item.quantity };
+                } catch (error) {
+                    if (error.message.includes('not found')) return null;
+                    return item;
+                }
+            }));
+            Store.saveCart(refreshed.filter(Boolean));
+        }
+
+        function updateQuantity(bookId, change) {
+            Store.updateQuantity(bookId, change);
+            renderCart();
+        }
+
+        function removeFromCart(bookId) {
+            Store.removeFromCart(bookId);
+            renderCart();
+        }
+
+        function updateCartCount() {
+            Store.updateCartCount();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            try { await refreshCartDetails(); } catch { }
+            renderCart();
+        });
+    </script>
+</body>
+</html>

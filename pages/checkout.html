@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - S4HIL STORE</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="../assets/css/styles.css?v=13" rel="stylesheet">
+    <script src="../assets/js/store.js" defer></script>
+    <script src="../assets/js/api.js" defer></script>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+            <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="nav-brand text-2xl font-bold" aria-label="S4HIL STORE Home">
+                        <span class="nav-brand-text">S4HIL</span>
+                        <span class="nav-brand-badge">STORE</span>
+                    </a>
+                </div>
+
+                <!-- Links (Desktop) -->
+                <div class="hidden md:flex items-center space-x-1 nav-desktop-links">
+                    <a href="/" class="nav-link px-3 py-2 font-medium">Home</a>
+                    <a href="/books" class="nav-link px-3 py-2 font-medium">Books</a>
+                    <a href="/about" class="nav-link px-3 py-2 font-medium">About</a>
+                    <a href="/contact" class="nav-link px-3 py-2 font-medium">Contact</a>
+                </div>
+
+                <!-- Cart, Wishlist, Login & Mobile Menu Toggle -->
+                <div class="flex items-center space-x-3 nav-actions">
+                    <a href="/wishlist" class="nav-icon-link p-2" aria-label="Wishlist" data-wishlist-nav>
+                        <i class="far fa-heart" aria-hidden="true"></i>
+                        <span class="cart-badge absolute -top-1 -right-1 bg-emerald-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center" data-wishlist-count>0</span>
+                    </a>
+                    <div class="relative">
+                        <a href="/cart" class="nav-icon-link p-2" aria-label="Shopping Cart">
+                            <i class="fas fa-shopping-cart text-lg" aria-hidden="true"></i>
+                            <span class="cart-badge absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center" id="cartCount">0</span>
+                        </a>
+                    </div>
+                    <a href="/login" class="nav-btn-login bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium" data-auth-link>
+                        <i class="fas fa-user mr-2" aria-hidden="true"></i><span>Login</span>
+                    </a>
+                    <button id="mobileMenuButton" class="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none" type="button" aria-label="Toggle Navigation Menu">
+                        <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu (Drawer) -->
+            <div id="mobileMenu" class="hidden md:hidden pb-3">
+                <a href="/" class="mobile-drawer-link block px-4 py-2 font-medium">Home</a>
+                <a href="/books" class="mobile-drawer-link block px-4 py-2 font-medium">Books</a>
+                <a href="/about" class="mobile-drawer-link block px-4 py-2 font-medium">About</a>
+                <a href="/contact" class="mobile-drawer-link block px-4 py-2 font-medium">Contact</a>
+                <a href="/wishlist" class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="far fa-heart mr-2 text-emerald-400" aria-hidden="true"></i> Wishlist</span>
+                    <span class="badge-pill" data-wishlist-count>0</span>
+                </a>
+                <a href="/cart" class="mobile-drawer-link block px-4 py-2 font-medium flex items-center justify-between">
+                    <span><i class="fas fa-shopping-cart mr-2 text-emerald-400" aria-hidden="true"></i> Cart</span>
+                    <span class="badge-pill" id="mobileCartCount">0</span>
+                </a>
+                <a href="/login" class="mobile-drawer-link block px-4 py-2 font-medium" data-auth-link>
+                    <i class="fas fa-user mr-2 text-emerald-400" aria-hidden="true"></i> Login / Account
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Section -->
+    <section class="max-w-6xl mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8">Checkout</h1>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Shipping Information -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-6">Shipping Information</h2>
+                <form id="shippingForm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium mb-2">First Name</label>
+                            <input id="firstName" name="firstName" type="text" autocomplete="given-name" placeholder="Rahul" required class="w-full p-3 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium mb-2">Last Name</label>
+                            <input id="lastName" name="lastName" type="text" autocomplete="family-name" placeholder="Sharma" required class="w-full p-3 border rounded-lg">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                        <input id="email" name="email" type="email" autocomplete="email" placeholder="rahul.sharma@example.com" required class="w-full p-3 border rounded-lg">
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone" class="block text-sm font-medium mb-2">Phone</label>
+                        <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210" required class="w-full p-3 border rounded-lg">
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-sm font-medium mb-2">Address</label>
+                        <input id="address" name="address" type="text" autocomplete="street-address" placeholder="Flat / House No., Street, Landmark" required class="w-full p-3 border rounded-lg">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="city" class="block text-sm font-medium mb-2">City</label>
+                            <input id="city" name="city" type="text" autocomplete="address-level2" placeholder="Mumbai" required class="w-full p-3 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="postalCode" class="block text-sm font-medium mb-2">Postal Code</label>
+                            <input id="postalCode" name="postalCode" type="text" autocomplete="postal-code" inputmode="numeric" placeholder="400001" required class="w-full p-3 border rounded-lg">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-6">Order Summary</h2>
+                <div id="orderSummary">
+                    <!-- Order items will be loaded here -->
+                </div>
+                
+                <div class="border-t pt-6 mt-6">
+                    <p class="payment-disclosure mb-5"><strong>Demo payment mode:</strong> no real payment will be charged. Submitting saves an unpaid request for store review.</p>
+                    
+                    <button id="placeOrderButton" type="submit" form="shippingForm" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-semibold">
+                        Place Order
+                    </button>
+                </div>
+            </div>
+        </div>
+        <section id="orderConfirmation" class="hidden bg-white border border-gray-200 rounded-lg p-8 text-center" role="status" aria-live="polite"></section>
+    </section>
+
+        <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">S4HIL STORE</h3>
+                    <p class="text-gray-400">Your trusted partner in the world of literature. Discover, read, and grow with us.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="/books" class="text-gray-400 hover:text-white">Books</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="/wishlist" class="text-gray-400 hover:text-white">Wishlist</a></li>
+                        <li><a href="/terms" class="text-gray-400 hover:text-white">Terms &amp; Conditions</a></li>
+                        <li><a href="/unsubscribe" class="text-gray-400 hover:text-white">Newsletter Preferences</a></li>
+                        <li><a href="/admin" class="text-gray-400 hover:text-white">Store Admin</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/books?category=fiction" class="text-gray-400 hover:text-white">Fiction</a></li>
+                        <li><a href="/books?category=non-fiction" class="text-gray-400 hover:text-white">Non-Fiction</a></li>
+                        <li><a href="/books?category=science-fiction" class="text-gray-400 hover:text-white">Science Fiction</a></li>
+                        <li><a href="/books?category=biography" class="text-gray-400 hover:text-white">Biography</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact Info</h4>
+                    <p class="text-gray-400 mb-2">451 Book Street, Mumbai</p>
+                    <p class="text-gray-400 mb-2">+91 98765 43210</p>
+                    <p class="text-gray-400">info@s4hil.store</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 S4HIL STORE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const form = document.getElementById('shippingForm');
+            const checkoutGrid = form.closest('.grid');
+            const summary = document.getElementById('orderSummary');
+            const placeOrderButton = document.getElementById('placeOrderButton');
+            const confirmation = document.getElementById('orderConfirmation');
+            let cart = Store.getCart();
+            try {
+                const session = await BookstoreApi.request('/api/auth/session');
+                if (session.authenticated) {
+                    const nameParts = session.user.name.trim().split(/\s+/);
+                    form.elements.firstName.value = nameParts.shift() || '';
+                    form.elements.lastName.value = nameParts.join(' ');
+                    form.elements.email.value = session.user.email;
+                }
+            } catch {}
+            if (cart.length) {
+                try {
+                    cart = (await Promise.all(cart.map(async (item) => {
+                        try {
+                            const result = await BookstoreApi.request(`/api/books/${item.id}`);
+                            return { ...item, ...result.book, quantity: item.quantity };
+                        } catch (error) {
+                            if (error.message.includes('not found')) return null;
+                            throw error;
+                        }
+                    }))).filter(Boolean);
+                    Store.saveCart(cart);
+                } catch (error) {
+                    summary.innerHTML = `<p class="text-red-600">We could not verify current pricing and availability. ${Store.escapeHTML(error.message)}</p><a href="cart.html" class="inline-block mt-4 text-blue-600 underline">Return to cart</a>`;
+                    placeOrderButton.disabled = true;
+                    return;
+                }
+            }
+            const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+            const shipping = subtotal > 999 ? 0 : 50;
+
+            if (cart.length === 0) {
+                summary.innerHTML = '<p class="text-gray-600">Your cart is empty. Add a book before checking out.</p><a href="books.html" class="inline-block mt-4 text-blue-600 underline">Browse books</a>';
+                placeOrderButton.disabled = true;
+                placeOrderButton.classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            summary.innerHTML = `
+                <ul class="space-y-3" aria-label="Items in your order">
+                    ${cart.map((item) => `<li class="flex justify-between gap-4 text-sm"><span>${Store.escapeHTML(item.title)} <span class="text-gray-500">× ${item.quantity}</span></span><span class="shrink-0">${Store.formatCurrency(item.price * item.quantity)}</span></li>`).join('')}
+                </ul>
+                <div class="border-t mt-5 pt-4 space-y-3">
+                    <p class="flex justify-between"><span>Subtotal</span><strong>${Store.formatCurrency(subtotal)}</strong></p>
+                    <p class="flex justify-between"><span>Shipping</span><strong>${shipping === 0 ? 'Free' : Store.formatCurrency(shipping)}</strong></p>
+                    <p class="flex justify-between text-lg"><span>Total</span><strong>${Store.formatCurrency(subtotal + shipping)}</strong></p>
+                </div>`;
+
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                if (!form.reportValidity()) return;
+                placeOrderButton.disabled = true;
+                placeOrderButton.textContent = 'Saving request…';
+                try {
+                    const formData = new FormData(form);
+                    const result = await BookstoreApi.request('/api/orders', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            firstName: formData.get('firstName'),
+                            lastName: formData.get('lastName'),
+                            email: formData.get('email'),
+                            phone: formData.get('phone'),
+                            address: formData.get('address'),
+                            city: formData.get('city'),
+                            postalCode: formData.get('postalCode'),
+                            items: cart.map((item) => ({ bookId: item.id, quantity: item.quantity }))
+                        })
+                    });
+                    Store.saveCart([]);
+                    checkoutGrid.classList.add('hidden');
+                    confirmation.classList.remove('hidden');
+                    confirmation.innerHTML = `<p class="text-sm uppercase text-gray-500 mb-3">Request saved · Payment not collected</p><h2 class="text-3xl mb-3">Your request is awaiting store confirmation.</h2><p class="text-gray-600">Reference <strong>${Store.escapeHTML(result.order.reference)}</strong> · Status: <strong>${Store.escapeHTML(result.order.status.replaceAll('_', ' '))}</strong> · Total ${Store.formatCurrency(result.order.total)}.</p><p class="text-gray-500 mt-3">No payment was charged, and this request does not confirm delivery.</p><a href="books.html" class="inline-block mt-6 bg-blue-600 text-white px-6 py-3">Continue browsing</a>`;
+                } catch (error) {
+                    Store.notify(error.message);
+                    placeOrderButton.disabled = false;
+                    placeOrderButton.textContent = 'Save order request';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
